@@ -29,10 +29,25 @@ n
  <img src="https://viblo.asia/uploads/a468626e-0831-4efb-b4be-537f5329f050.png"> Chúng ta có thể thấy rằng giả thuyết này có vẻ khá ngây thơ vì trên thực tế điều này có thể nói là không thể xảy ra tức là chúng ta rất ít khi tìm được một tập dữ liệu mà các thành phần của nó không liên quan gì đến nhau. Tuy nhiên, giả thiết ngây ngô này lại mang lại những kết quả tốt bất ngờ. Giả thiết về sự độc lập của các chiều dữ liệu này được gọi là Naive Bayes (xin phép không dịch). Cách xác định class của dữ liệu dựa trên giả thiết này có tên là Naive Bayes Classifier (NBC). Tuy nhiên dựa vào giả thuyết này mà bước training và testing trở nên vô cùng nhanh chóng và đơn giản. Chúng ta có thể sử dụng nó cho các bài toán large-scale. Trên thực tế, NBC hoạt động khá hiệu quả trong nhiều bài toán thực tế, đặc biệt là trong các bài toán phân loại văn bản
 
 ### Training 
-* Ở đây có một vấn đề, các giải thuật Machine Learning chỉ làm việc được với số, nên mình sẽ convert "ham", "spam" và cả các sms về định dạng số. Bắt đầu với "ham" (tương ứng với số 0) và "spam" (tương ứng với số 1). 
-* Tiếp theo, ta sẽ transform sms messages thành dạng số ( dùng module mà scikit learn cung cấp ). Module mà scikit learn cung cấp cho phép chuyển đổi định dạng text thành vector, mình sẽ import CountVectorizer và transform text thành vector. Cách transform thế này: mình có một mảng các string, mình sẽ transform mảng này sao mỗi string sẽ chuyển đổi thành 1 vector có độ dài d (số từ xuất hiện ít nhất 1 lần), giá trị của thành phần thứ i trong vector chính là số lần từ đó xuất hiện trong string. 
+* Ở đây có một vấn đề, các giải thuật Machine Learning chỉ làm việc được với số, nên mình sẽ convert labels và cả các data về định dạng số. 
+* Tiếp theo, ta sẽ transform data thành dạng số ( dùng module mà scikit learn cung cấp ). Module mà scikit learn cung cấp cho phép chuyển đổi định dạng text thành vector, mình sẽ import CountVectorizer và transform text thành vector. Cách transform thế này: mình có một mảng các string, mình sẽ transform mảng này sao mỗi string sẽ chuyển đổi thành 1 vector có độ dài d (số từ xuất hiện ít nhất 1 lần), giá trị của thành phần thứ i trong vector chính là số lần từ đó xuất hiện trong string.
+Sau đó ta sẽ sử dụng vectory vocab để lập ra từ điển các từ r ánh xạ vào file X_valid.
 * Sau đó, Ta sẽ import Naive Bayes, fit rồi predict là xong. 
 <img src="https://i.imgur.com/S9tEuKk.png">
 
-* Kết quả: 
-<ing src="https://i.imgur.com/KNi1c69.png">
+* Kết quả: Có vẻ khá khả quan nhỉ
+<img src="https://i.imgur.com/KNi1c69.png">
+
+Áp dụng GridSearchCV vào mô hình naive bayes trên thì thấy Accurancy có tăng lên. Param mà mình apply Grid Search ở đây là alpha, người ta thêm nó vào cải thiện độ chính xác.(alpha là hệ số làm trơn trong pp Laplace đc sử dụng trong NB)
+
+Với Grid Search, giả dụ giá trị của 2 parameter lần lượt từ 0-9. Grid Search sẽ lần lượt ghép từng giá trị của param 1 với param 2 để tính toán độ chính xác của model. Đảm bảo không bỏ sót cặp parameter nào.
+
+Ưu điểm: Diệt nhầm còn hơn bỏ sót, nên thường được ưu tiên lựa chọn.
+
+Nhược điểm: Tuy nhiên đối với các model cần thiết lập nhiều parameter và nhiều giá trị thì việc tunning sẽ mất rất nhiều thời gian, hàng giờ, vài giờ thậm chỉ có thể tính bằng ngày.
+
+Kết Quả: 
+<img src="https://i.imgur.com/GQFVg2D.png">
+
+## Confusion Matrx để đánh giá mô hình
+<img src="https://i.imgur.com/FGWxe1w.png">
