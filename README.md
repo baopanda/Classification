@@ -38,7 +38,7 @@ Sau đó ta sẽ sử dụng vectory vocab để lập ra từ điển các từ
 * Kết quả: Có vẻ khá khả quan nhỉ
 <img src="https://i.imgur.com/KNi1c69.png">
 
-Áp dụng GridSearchCV vào mô hình naive bayes trên thì thấy Accurancy có tăng lên. Param mà mình apply Grid Search ở đây là alpha, người ta thêm nó vào cải thiện độ chính xác.(alpha là hệ số làm trơn trong pp Laplace đc sử dụng trong NB)
+Áp dụng GridSearchCV vào mô hình naive bayes trên thì thấy Accurancy có tăng lên. Param mà mình apply Grid Search ở đây là alpha, người ta thêm nó vào cải thiện độ chính xác.
 
 Với Grid Search, giả dụ giá trị của 2 parameter lần lượt từ 0-9. Grid Search sẽ lần lượt ghép từng giá trị của param 1 với param 2 để tính toán độ chính xác của model. Đảm bảo không bỏ sót cặp parameter nào.
 
