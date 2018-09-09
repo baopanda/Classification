@@ -79,6 +79,11 @@ def Classification():
     best_clf.fit(transformed_x_train, y_train)
     y_pred = best_clf.predict(transformed_x_valid)
 
+    filename = 'NB-CV.pkl'
+    saved_model = open(filename, 'wb')
+    pickle.dump(best_clf, saved_model)
+    saved_model.close()
+
     # print(np.asarray(y_valid))
     # print(np.asarray(y_pred))
     print('Training size = %d, accuracy = %.2f%%' % \
