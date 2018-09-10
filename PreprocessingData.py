@@ -21,10 +21,10 @@ with open("datas_stopword.txt",'w',encoding='utf-8') as file:
         i = i.strip(SPECIAL_CHARACTER)
         i = ViTokenizer.tokenize(i)
         # print(i)
-        for word in i:
-            if word in stopwords.words('vietnam') and len(word)>20:
-                i.strip(word)
-        print(i)
+        # for word in i:
+        #     if word in stopwords.words('vietnam') and len(word)>20:
+        #         i.strip(word)
+        # print(i)
         file.write(i+"\n")
 with open("labels_new.txt",'w',encoding='utf-8') as file:
     for i in label:
