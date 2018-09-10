@@ -1,5 +1,6 @@
 import itertools
 import json
+import pickle
 from collections import Counter
 from os.path import join
 
@@ -15,17 +16,17 @@ import numpy as np
 
 pd.set_option('display.max_columns', 7)
 
-def LoadData():
+def LoadData(path_data,path_label):
     datas = []
     labels = []
-    with open("datas.txt",'r',encoding='utf-8')as file:
+    with open(path_data, 'r', encoding='utf-8')as file:
         for i in file:
             datas.append(i)
 
-    with open("labels.txt",'r',encoding='utf-8')as file:
+    with open(path_label, 'r', encoding='utf-8')as file:
         for i in file:
             labels.append(i)
-    return datas,labels
+    return datas, labels
 
 
 def plot_confusion_matrix(cm, classes,
@@ -63,7 +64,7 @@ def plot_confusion_matrix(cm, classes,
     plt.xlabel('Predicted label')
 
 def Classification():
-    datas,labels = LoadData()
+    datas,labels = LoadData("datas_stopword1.txt","labels_new1.txt")
     print(len(datas))
     print(len(labels))
     X_train, X_valid, y_train, y_valid = train_test_split(datas, labels, test_size=0.2, random_state=50)#Chia file data thành 80% để train và 20% để test
@@ -78,11 +79,6 @@ def Classification():
     best_clf = MultinomialNB()
     best_clf.fit(transformed_x_train, y_train)
     y_pred = best_clf.predict(transformed_x_valid)
-
-    filename = 'NB-CV.pkl'
-    saved_model = open(filename, 'wb')
-    pickle.dump(best_clf, saved_model)
-    saved_model.close()
 
     # print(np.asarray(y_valid))
     # print(np.asarray(y_pred))
@@ -100,30 +96,35 @@ def Classification():
     print('Training size = %d, accuracy = %.2f%%' % \
           (len(X_train), accuracy_score(y_valid, y_pred1) * 100))
 
-    cnf_matrix = confusion_matrix(y_valid, y_pred1)
-    np.set_printoptions(precision=2)
-    print('Confusion matrix:')
-    print(cnf_matrix)
+    filename = 'NB-CV.pkl'
+    saved_model = open(filename, 'wb')
+    pickle.dump(best_clf, saved_model)
+    saved_model.close()
+
+    # cnf_matrix = confusion_matrix(y_valid, y_pred1)
+    # np.set_printoptions(precision=2)
+    # print('Confusion matrix:')
+    # print(cnf_matrix)
 
     # plt.figure()
     # plot_confusion_matrix(cnf_matrix, classes=labels,
     #                       title='Confusion matrix, without normalization')
-
-    class_names=[1,2,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,156,188]
-
-    plt.figure()
-    plot_confusion_matrix(cnf_matrix, classes=class_names,
-                          title='Confusion matrix, without normalization')
-
-    plt.savefig(join("images", "Confusion matrix, without normalization.png"))
-
-    # Plot normalized confusion matrix
-    plt.figure()
-    plot_confusion_matrix(cnf_matrix, classes=class_names, normalize=True,
-                          title='Normalized confusion matrix')
-    plt.savefig(join("images", "Normalized confusion matrix.png"))
-
-    plt.show()
+    #
+    # class_names=[1,2,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,156,188]
+    #
+    # plt.figure()
+    # plot_confusion_matrix(cnf_matrix, classes=class_names,
+    #                       title='Confusion matrix, without normalization')
+    #
+    # plt.savefig(join("images", "Confusion matrix, without normalization.png"))
+    #
+    # # Plot normalized confusion matrix
+    # plt.figure()
+    # plot_confusion_matrix(cnf_matrix, classes=class_names, normalize=True,
+    #                       title='Normalized confusion matrix')
+    # plt.savefig(join("images", "Normalized confusion matrix.png"))
+    #
+    # plt.show()
 
 
 if __name__ == "__main__":

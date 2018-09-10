@@ -6,17 +6,17 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 
 
-def LoadData():
+def LoadData(path_data,path_label):
     datas = []
     labels = []
-    with open("datas.txt",'r',encoding='utf-8')as file:
+    with open(path_data, 'r', encoding='utf-8')as file:
         for i in file:
             datas.append(i)
 
-    with open("labels.txt",'r',encoding='utf-8')as file:
+    with open(path_label, 'r', encoding='utf-8')as file:
         for i in file:
             labels.append(i)
-    return datas,labels
+    return datas, labels
 
 def Classification():
     file = 'NB-CV.pkl'
@@ -24,8 +24,8 @@ def Classification():
     load_file = open(file,'rb')
     clf = pickle.load(load_file)
     print("Loading file : ",clf)
-
-    datas, labels = LoadData()
+    datas, labels = LoadData("datas_stopword1.txt", "labels_new1.txt")
+    # datas, labels = LoadData()
     print(len(datas))
     print(len(labels))
     X_train, X_valid, y_train, y_valid = train_test_split(datas, labels, test_size=0.2, random_state=50)
