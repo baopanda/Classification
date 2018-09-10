@@ -1963,10 +1963,10 @@ with open("datas_stopword1.txt",'w',encoding='utf-8') as file:
     for i in data:
         my_words = i.split(" ")
         # i = i.strip(SPECIAL_CHARACTER)
-        for word in my_words:
-            if word in SPECIAL_CHARACTER:
-                # print(word)
-                i = i.replace(word, "")
+        for word1 in i:
+            if word1 in SPECIAL_CHARACTER:
+                print(word1)
+                i = i.replace(word1, "")
                 i = i.replace("  ", " ")
                 # print(i)
         for word in my_words:
