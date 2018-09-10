@@ -49,5 +49,10 @@ Nhược điểm: Tuy nhiên đối với các model cần thiết lập nhiều
 Kết Quả: 
 <img src="https://i.imgur.com/GQFVg2D.png">
 
-## Confusion Matrx để đánh giá mô hình
+### Confusion Matrx để đánh giá mô hình
 <img src="https://i.imgur.com/FGWxe1w.png">
+
+### Hướng dẫn Test cho dữ liệu mới. 
+-Trước khi predict dữ liêu thì trước tiên ta phải tiền xử lý dữ liệu cũ của nó và transform nó về datas và labels riêng trong PreprocessingData.py.
+
+-Sau đó ta sẽ tạo 1 tập X_valid tương ứng với data cần predict và Y_valid tương tương ứng với nhãn gốc của nó để ta tính accurancy. Sau đó ta fit rồi predict là xong. 
