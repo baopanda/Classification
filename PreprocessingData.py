@@ -1982,6 +1982,7 @@ with open("datas_stopword1.txt",'w',encoding='utf-8') as file:
         i= i.lower()
         # print(i)
         file.write(i+"\n")
+
 with open("labels_new1.txt",'w',encoding='utf-8') as file:
     for i in label:
         print(i)
