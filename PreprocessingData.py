@@ -1961,26 +1961,32 @@ yêu_cầu
 SPECIAL_CHARACTER = '%@$=+-!;/()*"&^:♥<>#|\n\t\''
 with open("datas_stopword1.txt",'w',encoding='utf-8') as file:
     for i in data:
-        i = i.strip(SPECIAL_CHARACTER)
-        for word in i:
+        my_words = i.split(" ")
+        # i = i.strip(SPECIAL_CHARACTER)
+        for word in my_words:
             if word in SPECIAL_CHARACTER:
+                # print(word)
                 i = i.replace(word, "")
                 i = i.replace("  ", " ")
                 # print(i)
-        for word in i:
+        for word in my_words:
             if len(word) > 20:
+                # print(word)
                 i = i.replace(word, "")
                 i = i.replace("  ", " ")
                 # print(i)
         i = ViTokenizer.tokenize(i)
-        # print(i)
-        for word in i:
+        print(i)
+        my_words = i.split(" ")
+        print(my_words)
+        for word in my_words:
+            # print(word)
             if word in STOP_WORDS:
+                print(word)
                 i = i.replace(word, "")
                 i = i.replace("  ", " ")
                 # print(i)
-        i= i.lower()
-        # print(i)
+        i = i.lower()
         file.write(i+"\n")
 
 with open("labels_new1.txt",'w',encoding='utf-8') as file:
