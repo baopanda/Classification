@@ -64,10 +64,11 @@ def plot_confusion_matrix(cm, classes,
     plt.xlabel('Predicted label')
 
 def Classification():
-    datas,labels = LoadData("datas_stopword1.txt","labels_new1.txt")
-    print(len(datas))
-    print(len(labels))
-    X_train, X_valid, y_train, y_valid = train_test_split(datas, labels, test_size=0.2, random_state=50)#Chia file data thành 80% để train và 20% để test
+    X_train, y_train = LoadData("datas_stopword1.txt", "labels_new1.txt")
+    X_valid, y_valid = LoadData("datas_valid.txt", "labels_valid.txt")
+    # print(len(datas))
+    # print(len(labels))
+    # X_train, X_valid, y_train, y_valid = train_test_split(datas, labels, test_size=0.2, random_state=50)#Chia file data thành 80% để train và 20% để test
 
     vectorizer = CountVectorizer()#Chuyển đổi định dạng text thành vector
     transformed_x_train = vectorizer.fit_transform(X_train).toarray()#Chuyển X_train về dạng array

@@ -24,11 +24,14 @@ def Classification():
     load_file = open(file,'rb')
     clf = pickle.load(load_file)
     print("Loading file : ",clf)
-    datas, labels = LoadData("datas_stopword1.txt", "labels_new1.txt")
-    # datas, labels = LoadData()
-    print(len(datas))
-    print(len(labels))
-    X_train, X_valid, y_train, y_valid = train_test_split(datas, labels, test_size=0.2, random_state=50)
+    # datas, labels = LoadData("datas_stopword1.txt", "labels_new1.txt")
+    X_train, y_train = LoadData("datas_stopword1.txt", "labels_new1.txt")
+    X_valid, y_valid = LoadData("datas_valid.txt","labels_valid.txt")
+
+    # print(len(datas))
+    # print(len(labels))
+    # X_train, X_valid, y_train, y_valid = train_test_split(datas, labels, test_size=0.2, random_state=50)
+
     vectorizer = CountVectorizer()  # Chuyển đổi định dạng text thành vector
     transformed_x_train = vectorizer.fit_transform(X_train).toarray()  # Chuyển X_train về dạng array
     # print(vectorizer.get_feature_names()) #Đó chính là các từ xuất hiện ít nhất 1 lần trong các String
