@@ -1,17 +1,9 @@
-import itertools
-import json
 import pickle
-from collections import Counter
-from os.path import join
-
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.grid_search import GridSearchCV
-from sklearn.metrics import accuracy_score, confusion_matrix
-from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 from sklearn.naive_bayes import MultinomialNB
-from matplotlib import pyplot as plt
-from sklearn.svm import SVC
 import numpy as np
 
 pd.set_option('display.max_columns', 7)
@@ -28,46 +20,9 @@ def LoadData(path_data,path_label):
             labels.append(i)
     return datas, labels
 
-
-def plot_confusion_matrix(cm, classes,
-                          normalize=False,
-                          title='Confusion matrix',
-                          cmap=plt.cm.Blues):
-    """
-    This function prints and plots the confusion matrix.
-    Normalization can be applied by setting `normalize=True`.
-    """
-    if normalize:
-        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
-        print("Normalized confusion matrix")
-    else:
-        print('Confusion matrix, without normalization')
-
-    print(cm)
-
-    plt.imshow(cm, interpolation='nearest', cmap=cmap)
-    plt.title(title)
-    plt.colorbar()
-    tick_marks = np.arange(len(classes))
-    plt.xticks(tick_marks, classes, rotation=45)
-    plt.yticks(tick_marks, classes)
-
-    fmt = '.2f' if normalize else 'd'
-    thresh = cm.max() / 2.
-    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
-        plt.text(j, i, format(cm[i, j], fmt),
-                 horizontalalignment="center",
-                 color="white" if cm[i, j] > thresh else "black")
-
-    plt.tight_layout()
-    plt.ylabel('True label')
-    plt.xlabel('Predicted label')
-
 def Classification():
     X_train, y_train = LoadData("datas_stopword1.txt", "labels_new1.txt")
     X_valid, y_valid = LoadData("datas_valid.txt", "labels_valid.txt")
-    # print(len(datas))
-    # print(len(labels))
     # X_train, X_valid, y_train, y_valid = train_test_split(datas, labels, test_size=0.2, random_state=50)#Chia file data thành 80% để train và 20% để test
 
     vectorizer = CountVectorizer()#Chuyển đổi định dạng text thành vector
@@ -81,8 +36,6 @@ def Classification():
     best_clf.fit(transformed_x_train, y_train)
     y_pred = best_clf.predict(transformed_x_valid)
 
-    # print(np.asarray(y_valid))
-    # print(np.asarray(y_pred))
     print('Training size = %d, accuracy = %.2f%%' % \
           (len(X_train), accuracy_score(y_valid, y_pred) * 100))
     print(np.linspace(0, 1, 10))
@@ -101,32 +54,6 @@ def Classification():
     saved_model = open(filename, 'wb')
     pickle.dump(best_clf, saved_model)
     saved_model.close()
-
-    # cnf_matrix = confusion_matrix(y_valid, y_pred1)
-    # np.set_printoptions(precision=2)
-    # print('Confusion matrix:')
-    # print(cnf_matrix)
-
-    # plt.figure()
-    # plot_confusion_matrix(cnf_matrix, classes=labels,
-    #                       title='Confusion matrix, without normalization')
-    #
-    # class_names=[1,2,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,156,188]
-    #
-    # plt.figure()
-    # plot_confusion_matrix(cnf_matrix, classes=class_names,
-    #                       title='Confusion matrix, without normalization')
-    #
-    # plt.savefig(join("images", "Confusion matrix, without normalization.png"))
-    #
-    # # Plot normalized confusion matrix
-    # plt.figure()
-    # plot_confusion_matrix(cnf_matrix, classes=class_names, normalize=True,
-    #                       title='Normalized confusion matrix')
-    # plt.savefig(join("images", "Normalized confusion matrix.png"))
-    #
-    # plt.show()
-
 
 if __name__ == "__main__":
     Classification()

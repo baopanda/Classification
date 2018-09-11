@@ -1,10 +1,38 @@
+import itertools
 import pickle
-
-from sklearn.externals import joblib
+from os.path import join
 from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.metrics import accuracy_score
-from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, confusion_matrix
+from matplotlib import pyplot as plt
+import numpy as np
 
+def plot_confusion_matrix(cm, classes,
+                          normalize=False,
+                          title='Confusion matrix',
+                          cmap=plt.cm.Blues):
+    """
+    This function prints and plots the confusion matrix.
+    Normalization can be applied by setting `normalize=True`.
+    """
+    if normalize:
+        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+    plt.imshow(cm, interpolation='nearest', cmap=cmap)
+    plt.title(title)
+    plt.colorbar()
+    tick_marks = np.arange(len(classes))
+    plt.xticks(tick_marks, classes, rotation=45)
+    plt.yticks(tick_marks, classes)
+
+    fmt = '.2f' if normalize else 'd'
+    thresh = cm.max() / 2.
+    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+        plt.text(j, i, format(cm[i, j], fmt),
+                 horizontalalignment="center",
+                 color="white" if cm[i, j] > thresh else "black")
+
+    plt.tight_layout()
+    plt.ylabel('True label')
+    plt.xlabel('Predicted label')
 
 def LoadData(path_data,path_label):
     datas = []
@@ -20,17 +48,13 @@ def LoadData(path_data,path_label):
 
 def Classification():
     file = 'NB-CV.pkl'
-    # Load from file
+
     load_file = open(file,'rb')
     clf = pickle.load(load_file)
     print("Loading file : ",clf)
-    # datas, labels = LoadData("datas_stopword1.txt", "labels_new1.txt")
+
     X_train, y_train = LoadData("datas_stopword1.txt", "labels_new1.txt")
     X_valid, y_valid = LoadData("datas_valid.txt","labels_valid.txt")
-
-    # print(len(datas))
-    # print(len(labels))
-    # X_train, X_valid, y_train, y_valid = train_test_split(datas, labels, test_size=0.2, random_state=50)
 
     vectorizer = CountVectorizer()  # Chuyển đổi định dạng text thành vector
     transformed_x_train = vectorizer.fit_transform(X_train).toarray()  # Chuyển X_train về dạng array
@@ -41,6 +65,26 @@ def Classification():
     y_pred1 = clf.predict(transformed_x_valid)
     print('Training size = %d, accuracy = %.2f%%' % \
           (len(X_train), accuracy_score(y_valid, y_pred1) * 100))
+
+    cnf_matrix = confusion_matrix(y_valid, y_pred1)
+    np.set_printoptions(precision=2)
+    print('Confusion matrix:')
+
+    class_names = [1, 2, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 156, 188]
+
+    plt.figure()
+    plot_confusion_matrix(cnf_matrix, classes=class_names,
+                          title='Confusion matrix, without normalization')
+
+    plt.savefig(join("images", "Confusion matrix, without normalization.png"))
+
+    # Plot normalized confusion matrix
+    plt.figure()
+    plot_confusion_matrix(cnf_matrix, classes=class_names, normalize=True,
+                          title='Normalized confusion matrix')
+    plt.savefig(join("images", "Normalized confusion matrix.png"))
+
+    plt.show()
 
 if __name__ == "__main__":
     Classification()
