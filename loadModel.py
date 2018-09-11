@@ -34,6 +34,28 @@ def plot_confusion_matrix(cm, classes,
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
 
+def Draw_ConfusionMatrix(y_valid, y_pred1):
+    cnf_matrix = confusion_matrix(y_valid, y_pred1)
+    np.set_printoptions(precision=2)
+    print('Confusion matrix:')
+
+    class_names = [1, 2, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 156, 188]
+
+    plt.figure()
+    plot_confusion_matrix(cnf_matrix, classes=class_names,
+                          title='Confusion matrix, without normalization')
+
+    plt.savefig(join("images", "Confusion matrix, without normalization.png"))
+
+    # Plot normalized confusion matrix
+    plt.figure()
+    plot_confusion_matrix(cnf_matrix, classes=class_names, normalize=True,
+                          title='Normalized confusion matrix')
+    plt.savefig(join("images", "Normalized confusion matrix.png"))
+
+    plt.show()
+
+
 def LoadData(path_data,path_label):
     datas = []
     labels = []
@@ -66,25 +88,7 @@ def Classification():
     print('Training size = %d, accuracy = %.2f%%' % \
           (len(X_train), accuracy_score(y_valid, y_pred1) * 100))
 
-    cnf_matrix = confusion_matrix(y_valid, y_pred1)
-    np.set_printoptions(precision=2)
-    print('Confusion matrix:')
-
-    class_names = [1, 2, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 156, 188]
-
-    plt.figure()
-    plot_confusion_matrix(cnf_matrix, classes=class_names,
-                          title='Confusion matrix, without normalization')
-
-    plt.savefig(join("images", "Confusion matrix, without normalization.png"))
-
-    # Plot normalized confusion matrix
-    plt.figure()
-    plot_confusion_matrix(cnf_matrix, classes=class_names, normalize=True,
-                          title='Normalized confusion matrix')
-    plt.savefig(join("images", "Normalized confusion matrix.png"))
-
-    plt.show()
+    Draw_ConfusionMatrix(y_valid,y_pred1)
 
 if __name__ == "__main__":
     Classification()

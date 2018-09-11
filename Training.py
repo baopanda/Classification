@@ -20,6 +20,12 @@ def LoadData(path_data,path_label):
             labels.append(i)
     return datas, labels
 
+def SaveModel(clf):
+    filename = 'NB-CV.pkl'
+    saved_model = open(filename, 'wb')
+    pickle.dump(clf, saved_model)
+    saved_model.close()
+
 def Classification():
     X_train, y_train = LoadData("datas_stopword1.txt", "labels_new1.txt")
     X_valid, y_valid = LoadData("datas_valid.txt", "labels_valid.txt")
@@ -38,7 +44,7 @@ def Classification():
 
     print('Training size = %d, accuracy = %.2f%%' % \
           (len(X_train), accuracy_score(y_valid, y_pred) * 100))
-    print(np.linspace(0, 1, 10))
+
     params = {'alpha': np.linspace(0.1, 1, 10)}
     clf = MultinomialNB()
     clf = GridSearchCV(clf, params, cv=5)
@@ -50,10 +56,7 @@ def Classification():
     print('Training size = %d, accuracy = %.2f%%' % \
           (len(X_train), accuracy_score(y_valid, y_pred1) * 100))
 
-    filename = 'NB-CV.pkl'
-    saved_model = open(filename, 'wb')
-    pickle.dump(best_clf, saved_model)
-    saved_model.close()
+    SaveModel(best_clf)
 
 if __name__ == "__main__":
     Classification()
