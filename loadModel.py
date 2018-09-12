@@ -35,7 +35,9 @@ def plot_confusion_matrix(cm, classes,
     plt.xlabel('Predicted label')
 
 def Draw_ConfusionMatrix(y_valid, y_pred1):
-    cnf_matrix = confusion_matrix(y_valid, y_pred1)
+    cnf_matrix = confusion_matrix(y_valid, y_pred1,
+                                  labels=["1\n","2\n","6\n","7\n","8\n","9\n","10\n","11\n","12\n","13\n","14\n","15\n","16\n","17\n","18\n","19\n","20\n","21\n","22\n","23\n","24\n","156\n","188\n"])
+
     np.set_printoptions(precision=2)
     print('Confusion matrix:')
 
@@ -85,6 +87,7 @@ def Classification():
     vectorizer = CountVectorizer(vocabulary=trainVocab)  # Chuyển X_valid về dạng Array
     transformed_x_valid = vectorizer.fit_transform(X_valid).toarray()
     y_pred1 = clf.predict(transformed_x_valid)
+    print(y_pred1)
     print('Training size = %d, accuracy = %.2f%%' % \
           (len(X_train), accuracy_score(y_valid, y_pred1) * 100))
 
